@@ -1,7 +1,7 @@
 define =
 integrator = md
 dt         = 0.002   ; ps
-nsteps     = 1000000000
+nsteps     = 200000
 comm-grps  = system
 comm-mode  = Angular
 energygrps = 
