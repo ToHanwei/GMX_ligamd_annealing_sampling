@@ -3,8 +3,14 @@
 #结果储存文件夹
 res="Result"
 #过滤出值的个数
-num=10
+NUM=$1
+#mdp文件，步骤数
+STEEP = $2
 
+#修改mdp文件
+python modif.py md.mdp
+
+#是否已存在Rsult文件夹
 if [ -e ${res} ] 
 then
 	echo "开始运行"
@@ -42,11 +48,11 @@ for file in `ls mol2`; do
 	#提取稳定构象能量值及其对应帧数
 	echo "Total-Energy" | gmx energy -f ${prefix}_struc.edr -o ${prefix}_struc_edr.xvg
 	#运行过滤脚本
-	python ../../filter_edr.py -i ${prefix}_struc_edr.xvg -n $num -o yes -t ${prefix}.tpr -x ${prefix}.xtc
+	python ../../filter_edr.py -i ${prefix}_struc_edr.xvg -n ${NUM} -o yes -t ${prefix}.tpr -x ${prefix}.xtc
 	#清理文件
 	echo "需要清理文件吗？yes/no"
 	read -t 20 clea
-	if [ $clea == "yes" ]; then
+	if [ $clea -eq "yes" ]; then
 		rm ${prefix}.edr ${prefix}.xtc ${prefix}.tpr ${prefix}.cpt ${prefix}.log
 		echo "文件已清理"
 	else
@@ -55,4 +61,3 @@ for file in `ls mol2`; do
 	echo "返回初始目录"
 	cd ../../
 done
-
